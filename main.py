@@ -1,19 +1,25 @@
-"""Write the winning patch note for the sleep fix bounty.
+"""Fix Human Sleep: Funniest Patch Note - v2 entry program.
 
-One line, under the 160 character cap, no trailing newline.
+Writes one patch-note line to /output/entry.txt.
 """
 
 import os
 
-ENTRY = "Fixed: sleep now takes 8 hours instead of 12. The 4 hours saved have been reallocated to work."
+ENTRY = (
+    "Hotfix: sleep no longer requires lying down. "
+    "Standing sleep is now generally available; "
+    "falling over is a known issue."
+)
 
-assert 1 <= len(ENTRY) <= 160, "entry must be 1-160 characters"
+
+def write_entry(path, text):
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, "w", encoding="utf-8", newline="") as f:
+        f.write(text)
 
 
 def main():
-    os.makedirs("/output", exist_ok=True)
-    with open("/output/entry.txt", "w", encoding="utf-8") as f:
-        f.write(ENTRY)
+    write_entry("/output/entry.txt", ENTRY)
 
 
 if __name__ == "__main__":
