@@ -1,25 +1,26 @@
-"""Fix Human Sleep: Funniest Patch Note - v2 entry program.
+"""v3 entry: sleep resumes where it left off, nightmares included.
 
-Writes one patch-note line to /output/entry.txt.
+Emits one patch-note line to /output/entry.txt, no trailing newline.
 """
 
-import os
+from pathlib import Path
 
-ENTRY = (
-    "Hotfix: sleep no longer requires lying down. "
-    "Standing sleep is now generally available; "
-    "falling over is a known issue."
-)
+OPENING = "Fixed: sleep now resumes where you left off."
+STING = "Nightmares will also resume where you left off."
+
+DESTINATION = Path("/output/entry.txt")
 
 
-def write_entry(path, text):
-    os.makedirs(os.path.dirname(path), exist_ok=True)
-    with open(path, "w", encoding="utf-8", newline="") as f:
-        f.write(text)
+def build_entry():
+    return OPENING + " " + STING
 
 
 def main():
-    write_entry("/output/entry.txt", ENTRY)
+    note = build_entry()
+    assert 1 <= len(note) <= 160, "entry must be 1-160 characters"
+    assert "\n" not in note, "entry must be a single line"
+    DESTINATION.parent.mkdir(parents=True, exist_ok=True)
+    DESTINATION.write_bytes(note.encode("utf-8"))
 
 
 if __name__ == "__main__":
